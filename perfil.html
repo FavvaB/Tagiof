@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - NFTs Simulados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            background-color: #333;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .nft-gallery img {
+            margin: 10px;
+            border: 3px solid gold;
+            max-width: 200px;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .nft-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        #logo {
+            width: 50px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div><a href="index.html">Página Principal</a></div>
+        <img id="logo" src="./img/logo.png" alt="Logo Proyecto">
+    </header>
+    <div class="container">
+        <h1>Tu Galería de NFTs</h1>
+        <div class="nft-gallery" id="nftGallery">
+            <!-- NFTs guardados se mostrarán aquí -->
+        </div>
+    </div>
+
+    <script>
+        const nftGallery = document.getElementById("nftGallery");
+        const savedNFTs = JSON.parse(localStorage.getItem("savedNFTs")) || [];
+
+        if (savedNFTs.length === 0) {
+            nftGallery.innerHTML = "<p>No tienes NFTs guardados.</p>";
+        } else {
+            savedNFTs.forEach(nft => {
+                const img = document.createElement("img");
+                img.src = nft.image;
+                img.alt = "NFT Guardado";
+                img.addEventListener("click", function () {
+                    const newWindow = window.open("", "_blank");
+                    newWindow.document.write(`
+                        <html>
+                        <head><title>Detalle del NFT</title></head>
+                        <body style="text-align: center; font-family: Arial;">
+                            <h1>Detalle del NFT</h1>
+                            <img src="${nft.image}" alt="NFT Guardado" style="max-width: 300px;">
+                            <p><strong>Fecha y Hora de Creación:</strong> ${nft.date}</p>
+                        </body>
+                        </html>
+                    `);
+                });
+                nftGallery.appendChild(img);
+            });
+        }
+    </script>
+</body>
+</html>
